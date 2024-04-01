@@ -1,6 +1,13 @@
 import { Router } from "express";
-import resisterUser from "../controllers/user.controller.js";
+import { refrehAccessToken } from "../controllers/user.controller.js";
+import {
+  resisterUser,
+  loginUser,
+  logOutUser,
+} from "../controllers/user.controller.js";
 import { upload } from "../middlewires/multer.middlewire.js";
+import verifyJWT from "../middlewires/auth.middlewire.js";
+
 const router = Router();
 
 router.route("/resister").post(
@@ -13,6 +20,13 @@ router.route("/resister").post(
   ]),
   resisterUser
 );
-// router.route("/login").post(loginUser);
+
+router.route("/login").post(loginUser);
+
+//securedRoutes
+
+// router.route("/logout").post(verifyJWT, logOutUser);
+router.route("/logout").post(verifyJWT, logOutUser);
+router.route("/refresh-token").post(refrehAccessToken);
 
 export default router;
